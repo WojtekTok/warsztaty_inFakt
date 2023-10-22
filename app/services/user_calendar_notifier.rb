@@ -9,6 +9,14 @@ class UserCalendarNotifier
     @book = book
   end
 
+  def insert_event
+    return unless user.token.present? && user.refresh_token.present?
+
+    google_calendar_client.insert_event(CALENDAR_ID, event_data)
+  end
+
+  private
+
   def google_calendar_client
     client = Google::Apis::CalendarV3::CalendarService.new
     begin
@@ -32,7 +40,22 @@ class UserCalendarNotifier
                                          })
   end
 
-  private
+  def event_data
+    {
+      summary: "Oddać książkę: #{book.title}",
+      description: "Mija termin oddania książki: #{book.title}",
+      start: {
+        date_time: two_week_from_now.to_datetime.to_s
+      },
+      end: {
+        date_time: (two_week_from_now + 1.hour).to_datetime.to_s
+      }
+    }
+  end
+
+  def two_week_from_now
+    @two_week_from_now ||= 14.days.from_now
+  end
 
   attr_reader :book, :user
 end
