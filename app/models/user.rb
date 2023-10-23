@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   def self.from_omniauth(access_token)
     find_or_create_by(provider: access_token.provider, email:
-      access_token.info.email) do |user|
+      access_token.info.email).tap do |user|
       user.provider = access_token.provider
       user.uid = access_token.uid
       user.email = access_token.info.email
