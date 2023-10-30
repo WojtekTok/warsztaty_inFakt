@@ -2,7 +2,7 @@ class BooksController < ApplicationController
   before_action :set_book, only: %i[show edit update destroy]
 
   def index
-    @books = Book.all
+    @books = Book.page(params[:page])
   end
 
   def show; end
@@ -47,6 +47,17 @@ class BooksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def search
+    @books = Book.where('title LIKE ?', "%#{params[:search]}%")
+    respond_to do |format|
+      format.json do
+        render json: render_to_string(partial: 'books/index_item', collection: @books, as: :book, formats: [:html])
+      end
+    end
+  end
+  # używamy tutaj renderowania tego samego partiala co wcześniej już używaliiśmy.
+
 
   private
 

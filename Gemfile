@@ -22,12 +22,15 @@ gem 'a9n'
 gem 'google-api-client', require: 'google/apis/calendar_v3'
 
 gem 'bunny'
+gem 'hotwire-rails'
+gem 'kaminari'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'sidekiq'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem 'capybara'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'faker'
@@ -41,7 +44,9 @@ group :development, :test do
   gem 'rubocop-rails'
   gem 'rubocop-rake'
   gem 'rubocop-rspec'
+  gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 5.3'
+  gem 'webdrivers'
 end
 
 group :development do
